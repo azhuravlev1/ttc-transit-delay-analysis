@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# Project specific files
+Abstract Proposal.pdf
+DS8007_Final_Project.pdf
+project_notebook1.py
+*.log
+
+# Large data files
+Datasets/TTC Routes and Schedules Data/stop_times.txt
+Datasets/TTC Routes and Schedules Data/trips.txt
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+**/.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/ 
