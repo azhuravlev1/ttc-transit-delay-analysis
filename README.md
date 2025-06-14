@@ -2,7 +2,7 @@
 
 A comprehensive data visualization project analyzing Toronto Transit Commission (TTC) delay data across subway, streetcar, and bus services from 2023 to 2025.
 
-## 📊 Project Overview
+## Project Overview
 
 This project analyzes and visualizes TTC transit delay data to identify patterns, trends, and insights across different modes of transportation. The analysis includes:
 
@@ -12,14 +12,6 @@ This project analyzes and visualizes TTC transit delay data to identify patterns
 - Incident type analysis
 - Delay and gap correlation studies
 
-## 🛠️ Technologies Used
-
-- Python 3.x
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Jupyter Notebook
 
 ## 📁 Project Structure
 
@@ -34,7 +26,7 @@ This project analyzes and visualizes TTC transit delay data to identify patterns
 └── Project Report.pdf     # Final project report
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 1. Clone the repository:
    ```bash
@@ -51,7 +43,7 @@ This project analyzes and visualizes TTC transit delay data to identify patterns
    jupyter notebook project_code.ipynb
    ```
 
-## 📈 Key Features
+## Key Features
 
 - Comprehensive delay analysis across all TTC transit modes
 - Interactive visualizations
@@ -59,24 +51,21 @@ This project analyzes and visualizes TTC transit delay data to identify patterns
 - Incident type categorization
 - Delay impact assessment
 
-## 📝 Data Sources
+## Data Sources
 
 The project uses TTC delay data from:
 - Subway services (2023-2025)
 - Streetcar services (2023-2025)
 - Bus services (2023-2025)
 
-## 🤝 Contributing
-
-Feel free to submit issues and enhancement requests!
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👥 Authors
+## Author
 
-[Your Name] - Initial work
+Andrey Zhuravlev
 
 ## 🙏 Acknowledgments
 
