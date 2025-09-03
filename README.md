@@ -59,7 +59,7 @@ The project uses TTC delay data from:
 - Bus services (2023-2025)
 
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
@@ -67,7 +67,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Andrey Zhuravlev
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Toronto Transit Commission (TTC) for providing the data
 - TMU Data Visualization Course (DS8007) for project framework 
