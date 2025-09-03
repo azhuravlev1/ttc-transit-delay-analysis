@@ -26,23 +26,6 @@ This project analyzes and visualizes TTC transit delay data to identify patterns
 └── Project Report.pdf     # Final project report
 ```
 
-## Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone [repository-url]
-   ```
-
-2. Install required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Run the Jupyter notebook:
-   ```bash
-   jupyter notebook project_code.ipynb
-   ```
-
 ## Key Features
 
 - Comprehensive delay analysis across all TTC transit modes
