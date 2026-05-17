@@ -12,6 +12,8 @@ This project analyzes and visualizes TTC transit delay data to identify patterns
 - Incident type analysis
 - Delay and gap correlation studies
 
+ Full project report can be found [here](https://github.com/azhuravlev1/ttc-transit-delay-analysis/blob/main/Project%20Report.pdf)
+
 
 ## 📁 Project Structure
 
