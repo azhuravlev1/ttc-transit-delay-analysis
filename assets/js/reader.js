@@ -13,6 +13,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 let PDF_URL = '';
 let VIEWER_URL = '';
 let SIZE_LABEL = '';
+let UNIT = 'pages';
 
 // Configure the embedded PDF.js viewer before it starts: a reader, not an editor.
 document.addEventListener('webviewerloaded', (e) => {
@@ -59,7 +60,7 @@ async function initPreview() {
   updateBadge();
   scheduleHiRes();
   const meta = document.getElementById('paperMeta');
-  if (meta) meta.textContent = `PDF · ${pdfDoc.numPages} pages${SIZE_LABEL ? ' · ' + SIZE_LABEL : ''}`;
+  if (meta) meta.textContent = `PDF · ${pdfDoc.numPages} ${UNIT}${SIZE_LABEL ? ' · ' + SIZE_LABEL : ''}`;
 }
 
 function renderPage(el) {
@@ -346,7 +347,8 @@ async function closeReader() {
 }
 
 
-export function initPaper({ pdf, meta = '', viewerHash = 'zoom=page-width&pagemode=none' }) {
+export function initPaper({ pdf, meta = '', unit = 'pages', viewerHash = 'zoom=page-width&pagemode=none' }) {
+  UNIT = unit;
   PDF_URL = new URL(pdf, document.baseURI).href;
   VIEWER_URL = new URL('../../pdfjs/web/viewer.html', import.meta.url).href + '?file=' + encodeURIComponent(PDF_URL) + '#' + viewerHash;
   SIZE_LABEL = meta;
