@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Is My TTC Late? | Andrey Zhuravlev</title>
+<meta name="description" content="Two years of TTC subway, streetcar and bus delay records, combined and compared: causes, hotspots, reliability and the daily rhythm of disruptions.">
+<meta property="og:title" content="Why is my TTC late? Two years of delay data">
+<meta property="og:description" content="Subway, streetcar and bus delays on the TTC, January 2023 to January 2025. A data visualization project by Andrey Zhuravlev.">
+<meta property="og:image" content="https://azhuravlev1.github.io/ttc-transit-delay-analysis/assets/img/hotspots.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23DA251D%22/%3E%3Ccircle cx=%2232%22 cy=%2232%22 r=%2214%22 fill=%22%23F8C300%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Doto:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand"><span class="token" aria-hidden="true"></span>Andrey Zhuravlev · Data visualization</span>
+  <a class="topbar-link" href="https://github.com/azhuravlev1/ttc-transit-delay-analysis" target="_blank" rel="noopener">GitHub ↗</a>
+</div>
+
+<!-- Strip map: navigation + scroll progress -->
+<nav class="stripmap" aria-label="Sections">
+  <div class="strip-inner">
+    <div class="strip-line"></div>
+    <div class="strip-progress" id="stripProgress"></div>
+    <span class="train" id="train" aria-hidden="true"></span>
+    <a class="stn" href="#overview" data-target="overview"><i></i><span>Overview</span></a>
+    <a class="stn" href="#causes" data-target="causes"><i></i><span>Causes</span></a>
+    <a class="stn" href="#hotspots" data-target="hotspots"><i></i><span>Hotspots</span></a>
+    <a class="stn" href="#reliability" data-target="reliability"><i></i><span>Reliability</span></a>
+    <a class="stn" href="#timing" data-target="timing"><i></i><span>Timing</span></a>
+    <a class="stn" href="#data" data-target="data"><i></i><span>The data</span></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wall">
+    <div class="tile-band" aria-hidden="true"></div>
+    <h1 class="wall-name"><span>Delayed</span></h1>
+    <div class="tile-band" aria-hidden="true"></div>
+  </div>
+  <div class="hero-text">
+    <p class="kicker">TTC subway · streetcar · bus · January 2023 to January 2025</p>
+    <p class="hero-title">Why is my TTC late?</p>
+    <p class="hero-sub">The TTC publishes its delay logs as three separate datasets, one per mode. I put them side by side to see what actually stops Toronto's trains, streetcars and buses, where it happens, and at what time of day.</p>
+  </div>
+
+  <a class="gh-sign" href="https://github.com/azhuravlev1/ttc-transit-delay-analysis" target="_blank" rel="noopener">
+    <span class="gh-sign-icon">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    </span>
+    <span class="gh-sign-text"><small>Code, data and notebook</small><strong>View the project on GitHub</strong></span>
+    <span class="gh-sign-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <div class="notice">
+    <div class="notice-head"><span>Project report</span><span class="notice-tag">DS8007 · TMU</span></div>
+    <div class="notice-body">
+      <div class="paper-preview-wrap">
+        <div class="paper-preview" id="paperPreview" tabindex="0" aria-label="Scrollable preview of the project report"><div class="preview-loading">Loading the report…</div></div>
+        <span class="preview-page" id="previewPage" aria-live="polite"></span>
+      </div>
+      <div class="notice-info">
+        <h2>Analyzing Patterns and Impacts of TTC Service Disruptions</h2>
+        <p class="paper-meta" id="paperMeta">PDF · 12 pages · 4.4 MB</p>
+        <p class="notice-desc">The full write-up, with every chart and the data cleaning steps.</p>
+        <div class="notice-buttons">
+          <button class="btn btn-red" type="button" data-open-reader>Read the report</button>
+          <a class="btn btn-outline" href="paper/TTC_Delay_Analysis_Report.pdf" download="Zhuravlev_TTC_Delay_Analysis.pdf">Download PDF</a>
+        </div>
+        <a class="small-link" href="https://github.com/azhuravlev1/ttc-transit-delay-analysis/blob/main/Project%20Report.pdf" target="_blank" rel="noopener">The same PDF on GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= OVERVIEW ================= -->
+<section class="section" id="overview">
+  <div class="section-head"><span class="bullet" style="--c:#F8C300">1</span><h2>Three systems, one picture</h2></div>
+  <p class="lead">The TTC logs every incident that delays a vehicle: when it happened, where, what caused it, how many minutes it added, and how big a gap it left before the next vehicle. The catch is that subway, streetcar and bus records live in three different files with different columns, different codes and different spelling habits.</p>
+  <div class="boards">
+    <div class="board"><div class="board-top"><span class="mode-dot" style="--c:#F8C300"></span>Subway</div><div class="board-num">24,000</div><div class="board-sub">records a year · 180 incident types</div></div>
+    <div class="board"><div class="board-top"><span class="mode-dot" style="--c:#DA251D"></span>Streetcar</div><div class="board-num">13,000</div><div class="board-sub">records a year · 14 incident types</div></div>
+    <div class="board"><div class="board-top"><span class="mode-dot" style="--c:#1F6FB5"></span>Bus</div><div class="board-num">54,000</div><div class="board-sub">records a year · 13 incident types</div></div>
+  </div>
+  <p>I cleaned and combined two years and one month of data, from January 2023 to January 2025, from the City of Toronto Open Data Portal. Then I asked the same four questions of every mode: what causes delays, where they cluster, how bad they are, and when they happen.</p>
+</section>
+
+<!-- ================= CAUSES ================= -->
+<section class="section" id="causes">
+  <div class="section-head"><span class="bullet" style="--c:#00923F">2</span><h2>What stops the TTC</h2></div>
+  <p class="lead">Each mode has its own failure pattern.</p>
+  <div class="mode-explain">
+    <div><h3><span class="mode-dot" style="--c:#F8C300"></span>Subway</h3><p>Mostly people, not machines: disorderly patrons, injured or ill customers, passenger alarms and other passenger-related incidents top the list.</p></div>
+    <div><h3><span class="mode-dot" style="--c:#DA251D"></span>Streetcar</h3><p>A wider mix, including problems that only rails and overhead wires can have, such as switches and overhead power.</p></div>
+    <div><h3><span class="mode-dot" style="--c:#1F6FB5"></span>Bus</h3><p>Mechanical problems far ahead of everything else, then operator and security incidents.</p></div>
+  </div>
+  <figure class="tabfig" data-tabfig>
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab" data-src="assets/img/causes-subway.jpg" data-caption="Figure 1. The 15 most common subway delay causes, January 2023 to January 2025." aria-selected="true"><span class="mode-dot" style="--c:#F8C300"></span>Subway</button>
+      <button role="tab" class="tab" data-src="assets/img/causes-streetcar.jpg" data-caption="Figure 1. Streetcar incidents by type, January 2023 to January 2025."><span class="mode-dot" style="--c:#DA251D"></span>Streetcar</button>
+      <button role="tab" class="tab" data-src="assets/img/causes-bus.jpg" data-caption="Figure 1. Bus incidents by type, January 2023 to January 2025."><span class="mode-dot" style="--c:#1F6FB5"></span>Bus</button>
+    </div>
+    <div class="tab-img"><img src="assets/img/causes-subway.jpg" alt="Chart of incident counts by cause for the selected mode"></div>
+    <figcaption>Figure 1. The 15 most common subway delay causes, January 2023 to January 2025.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= HOTSPOTS ================= -->
+<section class="section" id="hotspots">
+  <div class="section-head"><span class="bullet" style="--c:#A21A68">3</span><h2>Where it happens</h2></div>
+  <p class="lead">Bloor station has more subway incidents than any other, and three of the next four are the ends of the lines: Kennedy, Kipling and Finch.</p>
+  <figure class="fig">
+    <img src="assets/img/hotspots.jpg" alt="Four bar charts of the top 15 locations by incident count: subway stations, bus locations, streetcar locations and bus routes" loading="lazy">
+    <figcaption>Figure 2. The 15 busiest incident locations for each mode, and the 15 bus routes with the most incidents.</figcaption>
+  </figure>
+  <p>Every top bus hotspot is a subway station with a bus terminal, where routes, crowds and transfers meet. Streetcar hotspots mix dedicated loops such as Exhibition and Kingston Road with subway stations like Union and Spadina, and Spadina has more streetcar delays than any other stop.</p>
+
+  <div class="callout-map">
+    <svg viewBox="0 0 760 270" role="img" aria-label="Schematic: bus route 32 Eglinton West runs along the future Line 5, and route 36 Finch West along the new Line 6">
+      <rect x="0" y="0" width="760" height="270" rx="16" fill="#fff"/>
+      <text x="28" y="40" font-size="15" font-weight="700" fill="#1D1D1B">The two worst bus routes, and what is being built on top of them</text>
+      <!-- Line 1 vertical -->
+      <path d="M560 60 V250" stroke="#F8C300" stroke-width="12" stroke-linecap="round"/>
+      <text x="575" y="250" font-size="12" fill="#555">Line 1</text>
+      <!-- Line 6 Finch West -->
+      <path d="M90 100 H560" stroke="#969594" stroke-width="12" stroke-linecap="round"/>
+      <path d="M90 100 H560" stroke="#DA251D" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+      <text x="90" y="80" font-size="14" font-weight="700" fill="#1D1D1B">Route 36 Finch West</text>
+      <text x="270" y="80" font-size="13" fill="#555">→ Line 6 Finch West</text>
+      <!-- Line 5 Eglinton -->
+      <path d="M90 190 H700" stroke="#FF8000" stroke-width="12" stroke-linecap="round"/>
+      <path d="M90 190 H560" stroke="#DA251D" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+      <text x="90" y="170" font-size="14" font-weight="700" fill="#1D1D1B">Route 32 Eglinton West</text>
+      <text x="290" y="170" font-size="13" fill="#555">→ Line 5 Eglinton</text>
+      <circle cx="560" cy="100" r="10" fill="#fff" stroke="#1D1D1B" stroke-width="4"/>
+      <circle cx="560" cy="190" r="10" fill="#fff" stroke="#1D1D1B" stroke-width="4"/>
+      <text x="575" y="104" font-size="12" fill="#555">Finch West</text>
+      <text x="575" y="214" font-size="12" fill="#555">Eglinton</text>
+      <line x1="28" y1="235" x2="58" y2="235" stroke="#DA251D" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+      <text x="66" y="239" font-size="12" fill="#555">bus route with the most (32) and second most (36) incidents</text>
+    </svg>
+    <p>Routes 32 and 36, the two bus routes with the most incidents, run along Eglinton West and Finch West, the exact corridors that Lines 5 and 6 were built to serve. Moving those riders onto rapid transit should take pressure off the two least reliable bus routes in the system.</p>
+  </div>
+
+  <figure class="tabfig" data-tabfig>
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab" data-src="assets/img/stations-subway.jpg" data-caption="Figure 3. Subway stations: number of incidents against average delay, with bubble size showing the average gap. Colours follow the TTC line colours." aria-selected="true"><span class="mode-dot" style="--c:#F8C300"></span>Subway stations</button>
+      <button role="tab" class="tab" data-src="assets/img/lines-subway.jpg" data-caption="Figure 3. Subway lines: number of incidents against average delay. The Scarborough RT (SRT) had few incidents but the longest delays."><span class="mode-dot" style="--c:#00923F"></span>Subway lines</button>
+      <button role="tab" class="tab" data-src="assets/img/stations-streetcar.jpg" data-caption="Figure 3. Streetcar stops: number of incidents against average delay. Spadina stands far above the rest."><span class="mode-dot" style="--c:#DA251D"></span>Streetcar stops</button>
+      <button role="tab" class="tab" data-src="assets/img/lines-streetcar.jpg" data-caption="Figure 3. Streetcar routes: 501 Queen, 504 King and 505 Dundas have the most incidents, while 306 Carlton and 508 Lake Shore have fewer but longer ones."><span class="mode-dot" style="--c:#DA251D"></span>Streetcar routes</button>
+    </div>
+    <div class="tab-img"><img src="assets/img/stations-subway.jpg" alt="Bubble scatter plot of incidents against average delay for the selected stations or lines" loading="lazy"></div>
+    <figcaption>Figure 3. Subway stations: number of incidents against average delay, with bubble size showing the average gap. Colours follow the TTC line colours.</figcaption>
+  </figure>
+  <p>Splitting incidents by line makes Bloor stand out even more, and shows Yorkdale as a different kind of problem: fewer incidents, but long delays and big gaps when they happen. At the line level, Lines 1 and 2 carry almost all incidents with short average delays, while the Scarborough RT, closed in July 2023, had the longest average delays of any line despite few incidents.</p>
+</section>
+
+<!-- ================= RELIABILITY ================= -->
+<section class="section" id="reliability">
+  <div class="section-head"><span class="bullet" style="--c:#FF8000">4</span><h2>How long is the wait?</h2></div>
+  <div class="platform-screen" aria-label="Platform display: subway records with no delay, more than 60 percent">
+    <span class="ps-label">SUBWAY RECORDS WITH NO DELAY</span>
+    <span class="ps-value">60%+</span>
+  </div>
+  <p class="lead">The subway is by far the most reliable mode. More than 60% of its delay records report no delay or gap at all, and when a gap does open it is usually around 10 minutes.</p>
+  <p>Buses and streetcars look very different. Their delays pile up at round numbers like 10, 15 and 20 minutes, giving the histograms a saw-tooth shape. Real delays do not come in neat multiples of five, so these are most likely estimated by hand when the incident is logged. Gaps of around 20 minutes are common, which means service intervals widen a lot when something goes wrong.</p>
+  <figure class="tabfig" data-tabfig>
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab" data-src="assets/img/dist-subway.jpg" data-caption="Figure 4. Distribution of delay (left) and gap (right) in minutes for the subway in 2024, capped at 60 minutes." aria-selected="true"><span class="mode-dot" style="--c:#F8C300"></span>Subway</button>
+      <button role="tab" class="tab" data-src="assets/img/dist-streetcar.jpg" data-caption="Figure 4. Distribution of delay (left) and gap (right) in minutes for streetcars in 2024, capped at 60 minutes."><span class="mode-dot" style="--c:#DA251D"></span>Streetcar</button>
+      <button role="tab" class="tab" data-src="assets/img/dist-bus.jpg" data-caption="Figure 4. Distribution of delay (left) and gap (right) in minutes for buses in 2024, capped at 60 minutes."><span class="mode-dot" style="--c:#1F6FB5"></span>Bus</button>
+    </div>
+    <div class="tab-img"><img src="assets/img/dist-subway.jpg" alt="Histograms of delay and gap minutes for the selected mode" loading="lazy"></div>
+    <figcaption>Figure 4. Distribution of delay (left) and gap (right) in minutes for the subway in 2024, capped at 60 minutes.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= TIMING ================= -->
+<section class="section" id="timing">
+  <div class="section-head"><span class="bullet" style="--c:#1F6FB5">5</span><h2>The TTC's day</h2></div>
+  <p class="lead">Each chart below is a 24-hour clock. The length of a bar is the number of incidents in that hour, and the colour is the average gap they leave.</p>
+  <div class="clock-row">
+    <figure class="tabfig clocks" data-tabfig>
+      <div class="tabs" role="tablist">
+        <button role="tab" class="tab" data-src="assets/img/radial-bus.jpg" data-caption="Figure 5. Bus incidents by hour (bar length) and average gap (colour)." aria-selected="true"><span class="mode-dot" style="--c:#1F6FB5"></span>Bus</button>
+        <button role="tab" class="tab" data-src="assets/img/radial-streetcar.jpg" data-caption="Figure 5. Streetcar incidents by hour (bar length) and average gap (colour)."><span class="mode-dot" style="--c:#DA251D"></span>Streetcar</button>
+        <button role="tab" class="tab" data-src="assets/img/radial-subway.jpg" data-caption="Figure 5. Subway incidents by hour (bar length) and average gap (colour)."><span class="mode-dot" style="--c:#F8C300"></span>Subway</button>
+      </div>
+      <div class="tab-img square"><img src="assets/img/radial-bus.jpg" alt="Radial chart of incidents by hour for the selected mode" loading="lazy"></div>
+      <figcaption>Figure 5. Bus incidents by hour (bar length) and average gap (colour).</figcaption>
+    </figure>
+    <div class="clock-notes">
+      <div class="note"><span class="note-time">15:00–16:00</span><p>Bus and streetcar incidents peak in the afternoon rush. Bus gaps also spike in the morning rush.</p></div>
+      <div class="note"><span class="note-time">7:00–9:00 &amp; 22:00</span><p>Subway incidents are highest in the morning rush and again around 10 p.m., though gaps stay short.</p></div>
+      <div class="note"><span class="note-time">5:00</span><p>Security incidents on buses and streetcars peak early in the morning, before full service begins.</p></div>
+    </div>
+  </div>
+  <p>Breaking the clocks down by incident type shows patterns that the totals hide. Mechanical problems sit between 6 a.m. and 6 p.m., when vehicles are in service and problems are spotted and fixed. Diversions are rare but leave the biggest gaps, especially around 5 to 6 a.m. Reports of unsanitary conditions stay high into the evening on buses but drop off on streetcars before rising again between 9 and 11 p.m., which fits streetcars being concentrated downtown, where late-night crowds are.</p>
+  <figure class="tabfig" data-tabfig>
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab" data-src="assets/img/types-bus.jpg" data-caption="Figure 6. Hourly incidents for the nine most common bus incident types. Colour shows the average gap." aria-selected="true"><span class="mode-dot" style="--c:#1F6FB5"></span>Bus</button>
+      <button role="tab" class="tab" data-src="assets/img/types-streetcar.jpg" data-caption="Figure 6. Hourly incidents for the nine most common streetcar incident types. Colour shows the average gap."><span class="mode-dot" style="--c:#DA251D"></span>Streetcar</button>
+    </div>
+    <div class="tab-img"><img src="assets/img/types-bus.jpg" alt="Grid of nine radial charts, one per incident type" loading="lazy"></div>
+    <figcaption>Figure 6. Hourly incidents for the nine most common bus incident types. Colour shows the average gap.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= DATA ================= -->
+<section class="section" id="data">
+  <div class="section-head"><span class="bullet" style="--c:#969594">6</span><h2>Mind the data</h2></div>
+  <p class="lead">The biggest obstacle was not the analysis. It was the station field.</p>
+  <div class="names">
+    <div class="names-col">
+      <div class="names-num">658</div>
+      <div class="names-label">different subway station names in the raw data</div>
+      <div class="dots" id="dotsRaw" aria-hidden="true"></div>
+    </div>
+    <div class="names-col">
+      <div class="names-num green">70</div>
+      <div class="names-label">subway stations the TTC actually operates</div>
+      <div class="dots" id="dotsReal" aria-hidden="true"></div>
+    </div>
+  </div>
+  <p>Station and line names are typed in by hand, so the same station appears with typos, abbreviations and extra words, and the line field sometimes contains station names or unrelated codes. Even after cleaning and keeping only the names that cover 99% of records, 194 distinct subway station names remained. Because of this, the delays could not be matched to station coordinates and put on a map.</p>
+  <div class="fixes">
+    <div class="fix"><span class="fix-num">1</span><p>Dropdown fields for line and station at data entry, so names cannot drift.</p></div>
+    <div class="fix"><span class="fix-num">2</span><p>Automatic delay logging from GPS or onboard systems, instead of minutes estimated by hand.</p></div>
+    <div class="fix"><span class="fix-num">3</span><p>With clean locations, an interactive delay map that compares disruptions with service levels, construction and population.</p></div>
+  </div>
+  <p class="small">Charts follow the official TTC line colours for subway lines, and buses and streetcars share one colour scheme for the incident types they have in common. Extreme delays were capped so that a few multi-hour incidents do not flatten everything else.</p>
+</section>
+
+<section class="section end">
+  <div class="end-card">
+    <p class="end-title">End of the line</p>
+    <p>All cleaning, analysis and plotting code is in one notebook in the repository, along with the raw and cleaned data.</p>
+    <div class="end-buttons">
+      <a class="btn btn-red" href="https://github.com/azhuravlev1/ttc-transit-delay-analysis" target="_blank" rel="noopener">View the code on GitHub</a>
+      <button class="btn btn-outline" type="button" data-open-reader>Read the report</button>
+    </div>
+  </div>
+  <p class="credit">Data: Toronto Transit Commission delay data (subway, streetcar and bus), City of Toronto Open Data Portal, Open Government Licence – Toronto. Final project for DS8007 Advanced Data Visualization, Toronto Metropolitan University. This page is an independent project and is not affiliated with the TTC.</p>
+</section>
+
+</main>
+
+<footer class="footer">Andrey Zhuravlev · <a href="https://github.com/azhuravlev1" target="_blank" rel="noopener">github.com/azhuravlev1</a> · <a href="https://linkedin.com/in/andrey-zh" target="_blank" rel="noopener">linkedin.com/in/andrey-zh</a></footer>
+
+<!-- Reader overlay -->
+<div class="reader" id="reader" aria-hidden="true">
+  <div class="reader-backdrop" data-close-reader></div>
+  <div class="reader-panel" id="readerPanel" role="dialog" aria-modal="true" aria-label="Project report reader">
+    <img class="reader-cover" id="readerCover" alt="">
+    <div class="reader-bar">
+      <span class="reader-title"><span class="token" aria-hidden="true"></span>Analyzing Patterns and Impacts of TTC Service Disruptions</span>
+      <div class="reader-actions">
+        <a class="reader-btn" href="paper/TTC_Delay_Analysis_Report.pdf" download="Zhuravlev_TTC_Delay_Analysis.pdf">Download</a>
+        <button class="reader-btn reader-close" type="button" data-close-reader>Close ✕</button>
+      </div>
+    </div>
+    <div class="reader-body"><iframe class="reader-frame" id="readerFrame" title="PDF reader" tabindex="-1"></iframe></div>
+  </div>
+</div>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
